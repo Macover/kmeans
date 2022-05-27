@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "480745a1-8fd2-4f95-a220-34c8b3962262": {
+      "ProjectGuid": "480745a1-8fd2-4f95-a220-34c8b3962262",
+      "DisplayName": "kMeansAlgoritmo",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
