@@ -25,7 +25,7 @@ namespace kMeansAlgoritmo
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            this.asignarCentroide(x[0], y[0], listaPuntosCentroides[0]);
         }
 
         public Form1()
@@ -33,6 +33,7 @@ namespace kMeansAlgoritmo
             InitializeComponent();
             graficarPuntos();
             listaPuntosCentroides = new List<System.Windows.Forms.DataVisualization.Charting.Series>();
+            btnCalcular.Enabled = false;
         }
 
         private void btn_Calcular_Click(object sender, EventArgs e)
@@ -86,11 +87,25 @@ namespace kMeansAlgoritmo
             }
             this.txtB_clases.Enabled = false;
             this.btn_CrearK.Enabled = false;
+            this.btnCalcular.Enabled = true;
         }
         public void asignarCentroide(int puntoX, int puntoY,
             System.Windows.Forms.DataVisualization.Charting.Series coordenadasCentroide)
         {
-            //double a = 
+            double x2 = coordenadasCentroide.Points[0].XValue;            
+            double y2 = coordenadasCentroide.Points[0].YValues[0];
+            double a = x2 - puntoX;
+            double b = y2 - puntoY;
+
+            double c = Math.Sqrt(Math.Pow(a,2) + Math.Pow(b,2));
+
+            //for (int i = 0; i < x.Length; i++)
+            //{
+            //    arreglo.dato = x[i], y[i]
+            //    arreglo.centroide = [listaPuntosCentroides[i]]
+            //    arreglo = asignarCentroide(x[i], y[i], centroide);
+            //    arreglo.c = [[54,65,76,45], [54,65,76,45]]                
+            //}           
         }
     }
 }
