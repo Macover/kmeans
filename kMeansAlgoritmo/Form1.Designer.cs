@@ -31,34 +31,32 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.grafica = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtB_clases = new System.Windows.Forms.TextBox();
             this.btn_CrearK = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnCalcular = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grafica)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // grafica
             // 
+            this.grafica.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.BackColor = System.Drawing.Color.DimGray;
             chartArea1.Name = "ChartArea1";
             this.grafica.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
+            legend1.Name = "Datos";
             this.grafica.Legends.Add(legend1);
             this.grafica.Location = new System.Drawing.Point(0, 0);
             this.grafica.Name = "grafica";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Legend = "Legend1";
+            series1.Color = System.Drawing.Color.Blue;
+            series1.Legend = "Datos";
+            series1.LegendText = "Datos";
             series1.Name = "Series1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series2.Color = System.Drawing.Color.Red;
-            series2.Legend = "Legend1";
-            series2.Name = "Series2";
             this.grafica.Series.Add(series1);
-            this.grafica.Series.Add(series2);
             this.grafica.Size = new System.Drawing.Size(577, 403);
             this.grafica.TabIndex = 0;
             this.grafica.Text = "chart1";
@@ -76,7 +74,7 @@
             this.btn_CrearK.Name = "btn_CrearK";
             this.btn_CrearK.Size = new System.Drawing.Size(196, 23);
             this.btn_CrearK.TabIndex = 3;
-            this.btn_CrearK.Text = "Insertar Clusters";
+            this.btn_CrearK.Text = "Insertar Centroides";
             this.btn_CrearK.UseVisualStyleBackColor = true;
             this.btn_CrearK.Click += new System.EventHandler(this.btn_CrearK_Click);
             // 
@@ -88,11 +86,22 @@
             this.panel1.Size = new System.Drawing.Size(577, 403);
             this.panel1.TabIndex = 4;
             // 
+            // btnCalcular
+            // 
+            this.btnCalcular.Location = new System.Drawing.Point(606, 98);
+            this.btnCalcular.Name = "btnCalcular";
+            this.btnCalcular.Size = new System.Drawing.Size(196, 23);
+            this.btnCalcular.TabIndex = 5;
+            this.btnCalcular.Text = "Calcular";
+            this.btnCalcular.UseVisualStyleBackColor = true;
+            this.btnCalcular.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 429);
+            this.Controls.Add(this.btnCalcular);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_CrearK);
             this.Controls.Add(this.txtB_clases);
@@ -111,6 +120,7 @@
         private System.Windows.Forms.TextBox txtB_clases;
         private System.Windows.Forms.Button btn_CrearK;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnCalcular;
     }
 }
 

@@ -16,15 +16,23 @@ namespace kMeansAlgoritmo
         public int[] x;
         public int[] y;
 
+        public List<System.Windows.Forms.DataVisualization.Charting.Series> listaPuntosCentroides;
+
         private void btn_CrearK_Click(object sender, EventArgs e)
         {
-            generarKClases();
+            insertarCentroides();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
 
         public Form1()
         {
             InitializeComponent();
             graficarPuntos();
+            listaPuntosCentroides = new List<System.Windows.Forms.DataVisualization.Charting.Series>();
         }
 
         private void btn_Calcular_Click(object sender, EventArgs e)
@@ -43,10 +51,10 @@ namespace kMeansAlgoritmo
             }
             for (int i = 0; i < x.Length; i++)
             {
-                grafica.Series["Series1"].Points.AddXY(x[i],y[i]);
+                grafica.Series["Series1"].Points.AddXY(x[i],y[i]);                
             }
         }
-        public void generarKClases()
+        public void insertarCentroides()
         {
             xMax=x.Max();
             xMin=x.Min();
@@ -56,16 +64,33 @@ namespace kMeansAlgoritmo
             int[] randx = new int[nClases];
             int[] randy = new int[nClases];
             Random random = new Random();
+            //System.Windows.Forms.DataVisualization.Charting.Series.
             for (int i = 0; i < randx.Length; i++)
             {                
+                //Puntos en el arreglo para graficar.
                 randx[i] = random.Next(xMin,xMax);
                 randy[i] = random.Next(yMin,yMax);
-            }
+                //Puntos en la lista para guardarlos.
 
+            }          
             for (int i = 0; i < nClases; i++)
             {
-                grafica.Series["Series2"].Points.AddXY(randx[i],randy[i]);
+                System.Windows.Forms.DataVisualization.Charting.Series nuevaSerie = new System.Windows.Forms.DataVisualization.Charting.Series();
+                nuevaSerie.Name = "Centroide " + (i+1);
+                nuevaSerie.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+                nuevaSerie.Points.AddXY(randx[i], randy[i]);
+                listaPuntosCentroides.Add(nuevaSerie);
+                //nuevaSerie.Color = randomColor;                               
+
+                grafica.Series.Add(nuevaSerie);                                            
             }
+            this.txtB_clases.Enabled = false;
+            this.btn_CrearK.Enabled = false;
+        }
+        public void asignarCentroide(int puntoX, int puntoY,
+            System.Windows.Forms.DataVisualization.Charting.Series coordenadasCentroide)
+        {
+            //double a = 
         }
     }
 }
