@@ -9,3 +9,14 @@ C:\Users\Macov\OneDrive - Universidad Politecnica de Tecamac\8voCuatri\Inteligen
 C:\Users\Macov\OneDrive - Universidad Politecnica de Tecamac\8voCuatri\Inteligencia Artificial\kMeansAlgoritmo\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.csproj.CoreCompileInputs.cache
 C:\Users\Macov\OneDrive - Universidad Politecnica de Tecamac\8voCuatri\Inteligencia Artificial\kMeansAlgoritmo\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.exe
 C:\Users\Macov\OneDrive - Universidad Politecnica de Tecamac\8voCuatri\Inteligencia Artificial\kMeansAlgoritmo\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.pdb
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\bin\Debug\kMeansAlgoritmo.exe.config
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\bin\Debug\kMeansAlgoritmo.exe
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\bin\Debug\kMeansAlgoritmo.pdb
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.csproj.AssemblyReference.cache
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.csproj.SuggestedBindingRedirects.cache
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.Form1.resources
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.Properties.Resources.resources
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.csproj.GenerateResource.cache
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.csproj.CoreCompileInputs.cache
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.exe
+C:\Users\Macov\OneDrive\Escritorio\kmeans\kMeansAlgoritmo\obj\Debug\kMeansAlgoritmo.pdb

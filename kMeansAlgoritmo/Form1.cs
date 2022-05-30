@@ -13,8 +13,8 @@ namespace kMeansAlgoritmo
     public partial class Form1 : Form
     {
         public int xMax=0,xMin=0,yMin=0,yMax=0,nClases;
-        public int[] x = { 4, 6, 8, 10, 12, 14, 16, 18, 20 };
-        public int[] y = { 3, 6, 9, 12, 15, 18, 21, 24, 27 };
+        public int[] x;
+        public int[] y;
 
         private void btn_CrearK_Click(object sender, EventArgs e)
         {
@@ -24,6 +24,7 @@ namespace kMeansAlgoritmo
         public Form1()
         {
             InitializeComponent();
+            graficarPuntos();
         }
 
         private void btn_Calcular_Click(object sender, EventArgs e)
@@ -32,6 +33,14 @@ namespace kMeansAlgoritmo
         }
         public void graficarPuntos()
         {
+            Random random = new Random();
+            x = new int[10];
+            y = new int[10];
+            for (int i = 0; i < x.Length; i++)
+            {
+                x[i] = random.Next(2, 40);
+                y[i] = random.Next(2, 40);
+            }
             for (int i = 0; i < x.Length; i++)
             {
                 grafica.Series["Series1"].Points.AddXY(x[i],y[i]);
@@ -44,16 +53,16 @@ namespace kMeansAlgoritmo
             yMax=y.Max();
             yMin=y.Min();
             nClases = int.Parse(txtB_clases.Text);
-            int[] randx=new int [nClases];
-            int [] randy = new int[nClases];
+            int[] randx = new int[nClases];
+            int[] randy = new int[nClases];
+            Random random = new Random();
             for (int i = 0; i < randx.Length; i++)
-            {
-                Random random = new Random();
-                randx [i] = random.Next(xMin,xMax);
-                randy [i] = random.Next(yMin,yMax);
+            {                
+                randx[i] = random.Next(xMin,xMax);
+                randy[i] = random.Next(yMin,yMax);
             }
 
-            for (int i = 0; i < randx.Length; i++)
+            for (int i = 0; i < nClases; i++)
             {
                 grafica.Series["Series2"].Points.AddXY(randx[i],randy[i]);
             }
