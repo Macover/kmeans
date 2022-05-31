@@ -30,7 +30,6 @@
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.grafica = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtB_clases = new System.Windows.Forms.TextBox();
             this.btn_CrearK = new System.Windows.Forms.Button();
@@ -50,13 +49,6 @@
             this.grafica.Legends.Add(legend1);
             this.grafica.Location = new System.Drawing.Point(0, 0);
             this.grafica.Name = "grafica";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Color = System.Drawing.Color.Blue;
-            series1.Legend = "Datos";
-            series1.LegendText = "Datos";
-            series1.Name = "Series1";
-            this.grafica.Series.Add(series1);
             this.grafica.Size = new System.Drawing.Size(577, 403);
             this.grafica.TabIndex = 0;
             this.grafica.Text = "chart1";

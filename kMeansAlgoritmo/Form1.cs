@@ -17,6 +17,7 @@ namespace kMeansAlgoritmo
         public int[] y;
 
         public List<System.Windows.Forms.DataVisualization.Charting.Series> listaPuntosCentroides;
+        public List<Dato> listaDatos;
 
         private void btn_CrearK_Click(object sender, EventArgs e)
         {
@@ -25,34 +26,80 @@ namespace kMeansAlgoritmo
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.asignarCentroide(x[0], y[0], listaPuntosCentroides[0]);
+            /*Se recorre cada dato de la lista y se calcula C
+             * con cada centroide asignado a la grafica             
+             * 
+             * El metodo calculaDistanciaConCentroide() devuelve C y se le pasa las coordenadas
+             * del dato junto con las del centroide.
+             * 
+             * Se van guardando todas las distancias que tuvo con ese centroide en una lista
+             * de la misma clase dato.
+             * Despues se determina el minimo y se le asignara el color del centroide.
+             * 
+            */
+
+            for (int i = 0; i < listaDatos.Count; i++)
+            {
+
+                List<double> listaValoresC = new List<double>();                
+                for (int j = 0; j < listaPuntosCentroides.Count; j++)
+                {
+                    int datoX = listaDatos[i].puntos.X;
+                    int datoY = listaDatos[i].puntos.Y;
+                    System.Windows.Forms.DataVisualization.Charting.Series centroide = listaPuntosCentroides[j];                    
+                    double c = this.calculaDistanciaConCentroide(datoX, datoY, centroide);
+                    listaValoresC.Add(c);                                        
+                }
+                //sacar el color del centroide que tuvo la menor distancia con el dato.
+                int posicionColor = listaValoresC.IndexOf(listaValoresC.Min());
+                Console.WriteLine(listaDatos);
+                Console.WriteLine(listaPuntosCentroides);
+                Color color = listaPuntosCentroides[posicionColor].ShadowColor;
+                grafica.Series["Datos"].Points[i].Color = color;
+                listaDatos[i].c = listaValoresC;
+            }
+            Console.WriteLine(listaDatos);
         }
 
         public Form1()
         {
             InitializeComponent();
-            graficarPuntos();
+            graficarPuntosIniciales();
             listaPuntosCentroides = new List<System.Windows.Forms.DataVisualization.Charting.Series>();
             btnCalcular.Enabled = false;
-        }
-
-        private void btn_Calcular_Click(object sender, EventArgs e)
+        }        
+        public void graficarPuntosIniciales()
         {
-            graficarPuntos();
-        }
-        public void graficarPuntos()
-        {
+            listaDatos = new List<Dato>();
             Random random = new Random();
             x = new int[10];
             y = new int[10];
+                        
+
             for (int i = 0; i < x.Length; i++)
             {
                 x[i] = random.Next(2, 40);
                 y[i] = random.Next(2, 40);
+                
+                Puntos coordenadasDato = new Puntos();
+                coordenadasDato.X = x[i];
+                coordenadasDato.Y = y[i];                
+
+                //guarda los puntos en una lista de tipo Dato
+                Dato nuevoDato = new Dato(coordenadasDato,Color.Blue); 
+                listaDatos.Add(nuevoDato);                
             }
+            System.Windows.Forms.DataVisualization.Charting.Series serieDatos = new System.Windows.Forms.DataVisualization.Charting.Series();
+            serieDatos.Name = "Datos";
+            serieDatos.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            serieDatos.BorderWidth = 1;
+            serieDatos.Color = Color.Blue;
+
+            grafica.Series.Add(serieDatos);
+
             for (int i = 0; i < x.Length; i++)
             {
-                grafica.Series["Series1"].Points.AddXY(x[i],y[i]);                
+                grafica.Series["Datos"].Points.AddXY(listaDatos[i].puntos.X, listaDatos[i].puntos.Y);
             }
         }
         public void insertarCentroides()
@@ -76,20 +123,26 @@ namespace kMeansAlgoritmo
             }          
             for (int i = 0; i < nClases; i++)
             {
+                //Generar color random
+                Random r = new Random();
+                Color rColor = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), r.Next(0, 256));
                 System.Windows.Forms.DataVisualization.Charting.Series nuevaSerie = new System.Windows.Forms.DataVisualization.Charting.Series();
                 nuevaSerie.Name = "Centroide " + (i+1);
                 nuevaSerie.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-                nuevaSerie.Points.AddXY(randx[i], randy[i]);
-                listaPuntosCentroides.Add(nuevaSerie);
-                //nuevaSerie.Color = randomColor;                               
+                nuevaSerie.BorderWidth = 1;
+                nuevaSerie.ShadowColor = rColor;
 
+                nuevaSerie.Points.AddXY(randx[i], randy[i]);
+                //nuevaSerie.Points[i].Color = rColor;
+                //nuevaSerie.Points[i].BorderWidth = 1;
+                listaPuntosCentroides.Add(nuevaSerie);                
                 grafica.Series.Add(nuevaSerie);                                            
             }
             this.txtB_clases.Enabled = false;
             this.btn_CrearK.Enabled = false;
             this.btnCalcular.Enabled = true;
         }
-        public void asignarCentroide(int puntoX, int puntoY,
+        public double calculaDistanciaConCentroide(int puntoX, int puntoY,
             System.Windows.Forms.DataVisualization.Charting.Series coordenadasCentroide)
         {
             double x2 = coordenadasCentroide.Points[0].XValue;            
@@ -98,6 +151,7 @@ namespace kMeansAlgoritmo
             double b = y2 - puntoY;
 
             double c = Math.Sqrt(Math.Pow(a,2) + Math.Pow(b,2));
+            return c;
 
             //for (int i = 0; i < x.Length; i++)
             //{
