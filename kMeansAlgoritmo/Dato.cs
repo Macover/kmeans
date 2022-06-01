@@ -10,8 +10,7 @@ namespace kMeansAlgoritmo
     public class Dato
     {
         public Puntos puntos;        
-        public Color color;
-        public List<double> c;        
+        public Color color;        
         //Iniciar puntos
         public Dato(Puntos puntos, Color color)
         {

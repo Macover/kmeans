@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace kMeansAlgoritmo
 {
@@ -16,7 +17,7 @@ namespace kMeansAlgoritmo
         public int[] x;
         public int[] y;
 
-        public List<System.Windows.Forms.DataVisualization.Charting.Series> listaPuntosCentroides;
+        public List<Series> listaPuntosCentroides;
         public List<Dato> listaDatos;
 
         private void btn_CrearK_Click(object sender, EventArgs e)
@@ -38,42 +39,56 @@ namespace kMeansAlgoritmo
              * 
             */
 
+            //for (int i = 0; i < listaPuntosCentroides.Count; i++)
+            //{
+            //    List<double> listaValoresC = new List<double>();
+            //    int posicionColor = 0;
+            //    for (int j = 0; j < listaDatos.Count; j++)
+            //    {
+            //        int datoX = listaDatos[j].puntos.X;
+            //        int datoY = listaDatos[j].puntos.Y;
+            //        Series centroide = listaPuntosCentroides[i];
+            //        double c = this.calculaDistanciaConCentroide(datoX, datoY, centroide);
+            //        listaValoresC.Add(c);
+            //    }                
+            //    posicionColor = listaValoresC.IndexOf(listaValoresC.Min());
+            //    Color color = listaPuntosCentroides[i].Color;
+            //    listaDatos[i].color = color;                
+            //    grafica.Series["Datos"].Points[posicionColor].Color = color;
+            //}
+
             for (int i = 0; i < listaDatos.Count; i++)
             {
-
-                List<double> listaValoresC = new List<double>();                
+                List<double> listaValoresC = new List<double>();
                 for (int j = 0; j < listaPuntosCentroides.Count; j++)
                 {
                     int datoX = listaDatos[i].puntos.X;
                     int datoY = listaDatos[i].puntos.Y;
-                    System.Windows.Forms.DataVisualization.Charting.Series centroide = listaPuntosCentroides[j];                    
+                    Series centroide = listaPuntosCentroides[j];
                     double c = this.calculaDistanciaConCentroide(datoX, datoY, centroide);
-                    listaValoresC.Add(c);                                        
+                    listaValoresC.Add(c);
                 }
                 //sacar el color del centroide que tuvo la menor distancia con el dato.
-                int posicionColor = listaValoresC.IndexOf(listaValoresC.Min());
-                Console.WriteLine(listaDatos);
-                Console.WriteLine(listaPuntosCentroides);
-                Color color = listaPuntosCentroides[posicionColor].ShadowColor;
-                grafica.Series["Datos"].Points[i].Color = color;
-                listaDatos[i].c = listaValoresC;
-            }
-            Console.WriteLine(listaDatos);
+                int posicionColor = listaValoresC.IndexOf(listaValoresC.Min());                
+                Color color = listaPuntosCentroides[posicionColor].Color;                
+                listaDatos[i].color = color;                
+                grafica.Series["Datos"].Points[i].Color = color;                
+            }            
         }
 
         public Form1()
         {
             InitializeComponent();
             graficarPuntosIniciales();
-            listaPuntosCentroides = new List<System.Windows.Forms.DataVisualization.Charting.Series>();
+            listaPuntosCentroides = new List<Series>();
             btnCalcular.Enabled = false;
         }        
         public void graficarPuntosIniciales()
         {
             listaDatos = new List<Dato>();
             Random random = new Random();
-            x = new int[10];
-            y = new int[10];
+            x = new int[20];
+            y = new int[20];
                         
 
             for (int i = 0; i < x.Length; i++)
@@ -93,7 +108,7 @@ namespace kMeansAlgoritmo
             serieDatos.Name = "Datos";
             serieDatos.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             serieDatos.BorderWidth = 1;
-            serieDatos.Color = Color.Blue;
+            serieDatos.Color = Color.Red;
 
             grafica.Series.Add(serieDatos);
 
@@ -126,24 +141,26 @@ namespace kMeansAlgoritmo
                 //Generar color random
                 Random r = new Random();
                 Color rColor = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), r.Next(0, 256));
-                System.Windows.Forms.DataVisualization.Charting.Series nuevaSerie = new System.Windows.Forms.DataVisualization.Charting.Series();
+                Series nuevaSerie = new Series();
                 nuevaSerie.Name = "Centroide " + (i+1);
-                nuevaSerie.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+                nuevaSerie.ChartType = SeriesChartType.Point;
                 nuevaSerie.BorderWidth = 1;
-                nuevaSerie.ShadowColor = rColor;
-
+                nuevaSerie.MarkerSize = 10;
+                nuevaSerie.MarkerStyle = MarkerStyle.Cross;
+                nuevaSerie.Color = this.generarColorAleatorio();
                 nuevaSerie.Points.AddXY(randx[i], randy[i]);
-                //nuevaSerie.Points[i].Color = rColor;
-                //nuevaSerie.Points[i].BorderWidth = 1;
+                //nuevaSerie.Points[0].Color =  rColor;
+                //nuevaSerie.Points[0].BorderWidth = 2;
                 listaPuntosCentroides.Add(nuevaSerie);                
-                grafica.Series.Add(nuevaSerie);                                            
+                grafica.Series.Add(nuevaSerie);
+                
             }
             this.txtB_clases.Enabled = false;
             this.btn_CrearK.Enabled = false;
             this.btnCalcular.Enabled = true;
         }
         public double calculaDistanciaConCentroide(int puntoX, int puntoY,
-            System.Windows.Forms.DataVisualization.Charting.Series coordenadasCentroide)
+            Series coordenadasCentroide)
         {
             double x2 = coordenadasCentroide.Points[0].XValue;            
             double y2 = coordenadasCentroide.Points[0].YValues[0];
@@ -160,6 +177,14 @@ namespace kMeansAlgoritmo
             //    arreglo = asignarCentroide(x[i], y[i], centroide);
             //    arreglo.c = [[54,65,76,45], [54,65,76,45]]                
             //}           
+        }
+        public Color generarColorAleatorio()
+        {
+            Random randomGen = new Random();
+            KnownColor[] names = (KnownColor[])Enum.GetValues(typeof(KnownColor));
+            KnownColor randomColorName = names[randomGen.Next(names.Length)];
+            Color randomColor = Color.FromKnownColor(randomColorName);        
+            return randomColor;
         }
     }
 }
