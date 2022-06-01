@@ -25,53 +25,9 @@ namespace kMeansAlgoritmo
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*Se recorre cada dato de la lista y se calcula C
-             * con cada centroide asignado a la grafica             
-             * 
-             * El metodo calculaDistanciaConCentroide() devuelve C y se le pasa las coordenadas
-             * del dato junto con las del centroide.
-             *              
-             * Despues se determina el minimo y se le asignara el color del centroide.
-             * 
-            */
-
-            //for (int i = 0; i < listaPuntosCentroides.Count; i++)
-            //{
-            //    List<double> listaValoresC = new List<double>();
-            //    int posicionColor = 0;
-            //    for (int j = 0; j < listaDatos.Count; j++)
-            //    {
-            //        int datoX = listaDatos[j].puntos.X;
-            //        int datoY = listaDatos[j].puntos.Y;
-            //        Series centroide = listaPuntosCentroides[i];
-            //        double c = this.calculaDistanciaConCentroide(datoX, datoY, centroide);
-            //        listaValoresC.Add(c);
-            //    }                
-            //    posicionColor = listaValoresC.IndexOf(listaValoresC.Min());
-            //    Color color = listaPuntosCentroides[i].Color;
-            //    listaDatos[i].color = color;                
-            //    grafica.Series["Datos"].Points[posicionColor].Color = color;
-            //}
-
-            for (int i = 0; i < listaDatos.Count; i++)
-            {
-                List<double> listaValoresC = new List<double>();
-                for (int j = 0; j < listaPuntosCentroides.Count; j++)
-                {
-                    int datoX = listaDatos[i].puntos.X;
-                    int datoY = listaDatos[i].puntos.Y;
-                    Series centroide = listaPuntosCentroides[j];
-                    double c = this.calculaDistanciaConCentroide(datoX, datoY, centroide);
-                    listaValoresC.Add(c);
-                }
-                //sacar el color del centroide que tuvo la menor distancia con el dato.
-                int posicionColor = listaValoresC.IndexOf(listaValoresC.Min());                
-                Color color = listaPuntosCentroides[posicionColor].Color;                
-                listaDatos[i].color = color;                
-                grafica.Series["Datos"].Points[i].Color = color;                
-            }
-
-            
+            btnCalcular.Enabled = false;
+            timer1.Stop();
+            timer1.Start();
         }
 
         public Form1()
@@ -142,20 +98,36 @@ namespace kMeansAlgoritmo
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        public void calculaDistancias()
         {
-            List<Puntos> nuevasCoordenasCentroides = new List<Puntos>();
-            nuevasCoordenasCentroides = this.reasignarCentroides();
+            /*Se recorre cada dato de la lista y se calcula C
+             * con cada centroide asignado a la grafica             
+             * 
+             * El metodo calculaDistanciaConCentroide() devuelve C y se le pasa las coordenadas
+             * del dato junto con las del centroide.
+             *              
+             * Despues se determina el minimo y se le asignara el color del centroide.
+             * 
+            */
 
-            for (int i = 0; i < nuevasCoordenasCentroides.Count; i++)
+            for (int i = 0; i < listaDatos.Count; i++)
             {
-                int x = nuevasCoordenasCentroides[i].X;
-                int y = nuevasCoordenasCentroides[i].Y;
-                grafica.Series["Centroide " + (i + 1)].Points[0].XValue = x;
-                grafica.Series["Centroide " + (i + 1)].Points[0].YValues[0] = y;
+                List<double> listaValoresC = new List<double>();
+                for (int j = 0; j < listaPuntosCentroides.Count; j++)
+                {
+                    int datoX = listaDatos[i].puntos.X;
+                    int datoY = listaDatos[i].puntos.Y;
+                    Series centroide = listaPuntosCentroides[j];
+                    double c = this.calculaDistanciaConCentroide(datoX, datoY, centroide);
+                    listaValoresC.Add(c);
+                }
+                //sacar el color del centroide que tuvo la menor distancia con el dato.
+                int posicionColor = listaValoresC.IndexOf(listaValoresC.Min());
+                Color color = listaPuntosCentroides[posicionColor].Color;
+                listaDatos[i].color = color;
+                grafica.Series["Datos"].Points[i].Color = color;
             }
         }
-
         public void insertarCentroides()
 
         {
@@ -204,6 +176,13 @@ namespace kMeansAlgoritmo
             this.btn_CrearK.Enabled = false;
             this.btnCalcular.Enabled = true;
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {            
+            this.calculaDistancias();
+            this.reasignaCentroides();
+        }
+
         public double calculaDistanciaConCentroide(int puntoX, int puntoY,
             Series coordenadasCentroide)
         {
@@ -237,7 +216,7 @@ namespace kMeansAlgoritmo
             return rColor;
         }
 
-        public List<Puntos> reasignarCentroides()
+        public List<Puntos> calculaNuevasCoordenasCentroides()
         {
             //va a recorrer los centroides y dentro va a recorer todos los datos..
             //sacando el promedio en X y el pormedio en Y
@@ -273,6 +252,20 @@ namespace kMeansAlgoritmo
             }
             //que retorne las coordenas
             return nuevasCoordenasCentroides;
+        }
+
+        public void reasignaCentroides()
+        {
+            List<Puntos> nuevasCoordenasCentroides = new List<Puntos>();
+            nuevasCoordenasCentroides = this.calculaNuevasCoordenasCentroides();
+
+            for (int i = 0; i < nuevasCoordenasCentroides.Count; i++)
+            {
+                int x = nuevasCoordenasCentroides[i].X;
+                int y = nuevasCoordenasCentroides[i].Y;
+                grafica.Series["Centroide " + (i + 1)].Points[0].XValue = x;
+                grafica.Series["Centroide " + (i + 1)].Points[0].YValues[0] = y;
+            }
         }
     }
 }
