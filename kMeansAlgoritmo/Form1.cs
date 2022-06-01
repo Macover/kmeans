@@ -14,8 +14,6 @@ namespace kMeansAlgoritmo
     public partial class Form1 : Form
     {
         public int xMax=0,xMin=0,yMin=0,yMax=0,nClases;
-        public int[] x;
-        public int[] y;
 
         public List<Series> listaPuntosCentroides;
         public List<Dato> listaDatos;
@@ -32,9 +30,7 @@ namespace kMeansAlgoritmo
              * 
              * El metodo calculaDistanciaConCentroide() devuelve C y se le pasa las coordenadas
              * del dato junto con las del centroide.
-             * 
-             * Se van guardando todas las distancias que tuvo con ese centroide en una lista
-             * de la misma clase dato.
+             *              
              * Despues se determina el minimo y se le asignara el color del centroide.
              * 
             */
@@ -87,42 +83,76 @@ namespace kMeansAlgoritmo
         {
             listaDatos = new List<Dato>();
             Random random = new Random();
-            x = new int[20];
-            y = new int[20];
-                        
+            
+            int[]xGp1 = new int[20];
+            int[]yGp1 = new int[20];
 
-            for (int i = 0; i < x.Length; i++)
+            int[]xGp2 = new int[20];
+            int[]yGp2 = new int[20];
+
+            int[]xGp3 = new int[20];
+            int[]yGp3 = new int[20];
+
+
+            for (int i = 0; i < xGp1.Length; i++)
             {
-                x[i] = random.Next(2, 40);
-                y[i] = random.Next(2, 40);
-                
-                Puntos coordenadasDato = new Puntos();
-                coordenadasDato.X = x[i];
-                coordenadasDato.Y = y[i];                
-
+                xGp1[i] = random.Next(2, 8);
+                yGp1[i] = random.Next(5, 18);                
+                Puntos coordenadasDatoGp1 = new Puntos();
+                coordenadasDatoGp1.X = xGp1[i];
+                coordenadasDatoGp1.Y = yGp1[i];
                 //guarda los puntos en una lista de tipo Dato
-                Dato nuevoDato = new Dato(coordenadasDato,Color.Blue); 
-                listaDatos.Add(nuevoDato);                
+                Dato nuevoDatoGp1 = new Dato(coordenadasDatoGp1, Color.Red);
+
+
+                xGp2[i] = random.Next(10, 14);
+                yGp2[i] = random.Next(5, 18);
+                Puntos coordenadasDatoGp2 = new Puntos();
+                coordenadasDatoGp2.X = xGp2[i];
+                coordenadasDatoGp2.Y = yGp2[i];
+                //guarda los puntos en una lista de tipo Dato
+                Dato nuevoDatoGp2 = new Dato(coordenadasDatoGp2, Color.Red);
+
+                xGp3[i] = random.Next(20, 25);
+                yGp3[i] = random.Next(5, 20);
+                Puntos coordenadasDatoGp3 = new Puntos();
+                coordenadasDatoGp3.X = xGp3[i];
+                coordenadasDatoGp3.Y = yGp3[i];
+                //guarda los puntos en una lista de tipo Dato
+                Dato nuevoDatoGp3 = new Dato(coordenadasDatoGp3, Color.Red);
+
+                listaDatos.Add(nuevoDatoGp1);
+                listaDatos.Add(nuevoDatoGp2);
+                listaDatos.Add(nuevoDatoGp3);
             }
-            System.Windows.Forms.DataVisualization.Charting.Series serieDatos = new System.Windows.Forms.DataVisualization.Charting.Series();
+            Series serieDatos = new Series();
             serieDatos.Name = "Datos";
-            serieDatos.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            serieDatos.ChartType = SeriesChartType.Point;
+            serieDatos.MarkerStyle = MarkerStyle.Circle;
             serieDatos.BorderWidth = 1;
             serieDatos.Color = Color.Red;
 
             grafica.Series.Add(serieDatos);
 
-            for (int i = 0; i < x.Length; i++)
+            for (int i = 0; i < (xGp1.Length + xGp2.Length + xGp3.Length); i++)
             {
                 grafica.Series["Datos"].Points.AddXY(listaDatos[i].puntos.X, listaDatos[i].puntos.Y);
             }
         }
         public void insertarCentroides()
+
         {
-            xMax=x.Max();
-            xMin=x.Min();
-            yMax=y.Max();
-            yMin=y.Min();
+            List<int> listaXDatos = new List<int>();
+            List<int> listaYDatos = new List<int>();
+            for (int i = 0; i < listaDatos.Count; i++)
+            {
+                listaXDatos.Add(listaDatos[i].puntos.X);
+                listaYDatos.Add(listaDatos[i].puntos.Y);
+            }
+            xMin=listaXDatos.Min();
+            yMin=listaYDatos.Min();
+            xMax=listaXDatos.Max();
+            yMax=listaYDatos.Max();
             nClases = int.Parse(txtB_clases.Text);
             int[] randx = new int[nClases];
             int[] randy = new int[nClases];
