@@ -34,6 +34,7 @@
             this.btn_CrearK = new System.Windows.Forms.Button();
             this.btnCalcular = new System.Windows.Forms.Button();
             this.grafica = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grafica)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,12 +84,23 @@
             this.grafica.TabIndex = 0;
             this.grafica.Text = "chart1";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(911, 348);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1042, 468);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnCalcular);
             this.Controls.Add(this.txtB_clases);
             this.Controls.Add(this.btn_CrearK);
@@ -106,6 +118,7 @@
         private System.Windows.Forms.Button btn_CrearK;
         private System.Windows.Forms.Button btnCalcular;
         private System.Windows.Forms.DataVisualization.Charting.Chart grafica;
+        private System.Windows.Forms.Button button1;
     }
 }
 

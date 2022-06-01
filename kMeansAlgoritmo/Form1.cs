@@ -69,7 +69,9 @@ namespace kMeansAlgoritmo
                 Color color = listaPuntosCentroides[posicionColor].Color;                
                 listaDatos[i].color = color;                
                 grafica.Series["Datos"].Points[i].Color = color;                
-            }            
+            }
+
+            
         }
 
         public Form1()
@@ -139,6 +141,21 @@ namespace kMeansAlgoritmo
                 grafica.Series["Datos"].Points.AddXY(listaDatos[i].puntos.X, listaDatos[i].puntos.Y);
             }
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            List<Puntos> nuevasCoordenasCentroides = new List<Puntos>();
+            nuevasCoordenasCentroides = this.reasignarCentroides();
+
+            for (int i = 0; i < nuevasCoordenasCentroides.Count; i++)
+            {
+                int x = nuevasCoordenasCentroides[i].X;
+                int y = nuevasCoordenasCentroides[i].Y;
+                grafica.Series["Centroide " + (i + 1)].Points[0].XValue = x;
+                grafica.Series["Centroide " + (i + 1)].Points[0].YValues[0] = y;
+            }
+        }
+
         public void insertarCentroides()
 
         {
@@ -168,9 +185,7 @@ namespace kMeansAlgoritmo
             }          
             for (int i = 0; i < nClases; i++)
             {
-                //Generar color random
-                Random r = new Random();
-                Color rColor = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), r.Next(0, 256));
+                
                 Series nuevaSerie = new Series();
                 nuevaSerie.Name = "Centroide " + (i+1);
                 nuevaSerie.ChartType = SeriesChartType.Point;
@@ -210,11 +225,54 @@ namespace kMeansAlgoritmo
         }
         public Color generarColorAleatorio()
         {
-            Random randomGen = new Random();
-            KnownColor[] names = (KnownColor[])Enum.GetValues(typeof(KnownColor));
-            KnownColor randomColorName = names[randomGen.Next(names.Length)];
-            Color randomColor = Color.FromKnownColor(randomColorName);        
-            return randomColor;
+            //Random randomGen = new Random();
+            //KnownColor[] names = (KnownColor[])Enum.GetValues(typeof(KnownColor));
+            //KnownColor randomColorName = names[randomGen.Next(names.Length)];
+            //Color randomColor = Color.FromKnownColor(randomColorName);
+            //return randomColor;
+
+            //Generar color random
+            Random r = new Random();
+            Color rColor = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), r.Next(0, 256));
+            return rColor;
+        }
+
+        public List<Puntos> reasignarCentroides()
+        {
+            //va a recorrer los centroides y dentro va a recorer todos los datos..
+            //sacando el promedio en X y el pormedio en Y
+            List<Puntos> nuevasCoordenasCentroides = new List<Puntos>();
+            
+            for (int i = 0; i < listaPuntosCentroides.Count; i++)
+            {
+                int sumatoriaX = 0;                
+                int sumatoriaY = 0;
+                
+                Puntos promedio = new Puntos();                
+
+                int numeroDeDatos = 0;
+                for (int j= 0; j < listaDatos.Count; j++)
+                {
+                    if(listaPuntosCentroides[i].Color == listaDatos[j].color)
+                    {
+                        sumatoriaX += listaDatos[j].puntos.X;
+                        sumatoriaY += listaDatos[j].puntos.Y;
+                        numeroDeDatos++;
+                    }                    
+                }
+                try
+                {
+                    promedio.X = sumatoriaX / numeroDeDatos;
+                    promedio.Y = sumatoriaY / numeroDeDatos;
+                    nuevasCoordenasCentroides.Add(promedio);
+                }
+                catch(Exception ex)
+                {
+                    continue;
+                }               
+            }
+            //que retorne las coordenas
+            return nuevasCoordenasCentroides;
         }
     }
 }
